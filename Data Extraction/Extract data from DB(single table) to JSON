@@ -1,0 +1,53 @@
+# !/usr/bin/python
+# view_rows.py - Fetch and display the rows from a MySQL database query
+
+# import the MySQLdb and sys modules
+import pymysql
+import sys
+
+# open a database connection
+# be sure to change the host IP address, username, password
+# and database name to match your info
+#
+connection = pymysql.connect ("localhost","root","root","sakila")
+
+# prepare a cursor object using cursor() method
+cursor = connection.cursor()
+
+# execute the SQL query using execute() method.
+cursor.execute ("select * from actor")
+
+# fetch all of the rows from the query
+data = cursor.fetchall ()
+filename = 'actor_date.json'
+# print the rows
+actor_data_dict = {}
+
+try:
+    for row in data :
+        # print(row[0], row[1],row[2],row[3])
+
+        actor_data_dict['actor_id'] = row[0]
+
+        actor_data_dict['first_name'] = row[1]
+
+        actor_data_dict['last_name'] = row[2]
+
+        actor_data_dict['last_update'] = row[3]
+
+        # print(actor_data_dict)
+
+        with open(filename,'w') as db_to_json:
+            db_to_json.write(str(actor_data_dict))
+    print("data from Table has been extracted to "+ str(filename)+ " successfully")
+except:
+    print("Error reading data from MySQL table")
+
+    # close the cursor object
+    cursor.close ()
+
+    # close the connection
+    connection.close ()
+
+    # exit the program
+    sys.exit()
