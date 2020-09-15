@@ -1,0 +1,57 @@
+import pymysql
+import pathlib
+# defining output path with pathlib library
+output_path = str(pathlib.Path.cwd() / "db_output")
+class Extract:
+    def __init__(self,host,user,pwd):
+        self.host = host
+        self.user = user
+        self.pwd = pwd
+
+    def show_db(self):
+        # open a database connection be sure to change the host IP address, username, password and database name to match your info
+        connection = pymysql.connect(self.host, self.user,self.pwd)
+        # prepare a cursor object using cursor() method
+        cursor = connection.cursor()
+
+        # execute the SQL query using execute() method.
+        cursor.execute("show databases")
+
+        # fetch all of the rows from the query
+        data_db = cursor.fetchall()
+        # converting data(tuple) to all tables (list)
+        all_dbs = [item for f in data_db for item in f]
+
+        # Print all_dbs
+        print("Good News ! We have connected you to your database. Now you can select the database from your DB which you would want to extract the data")
+        print('\n')
+        print("The database names are below: " +'\n'+('\n'.join(map(str, all_dbs))+'\t'))
+
+    def select_db(self):
+        db = input("Please enter the database name that u want to extract all table data : ")
+
+        print("Thank you ! File extraction started")
+        connection = pymysql.connect(self.host, self.user,self.pwd, db)
+        cursor = connection.cursor()
+        cursor.execute("show tables")
+        data_tables = cursor.fetchall()
+        all_tables = [item for t in data_tables for item in t]
+
+        # writing all table in data with table name as file name
+        for current_tbl in all_tables:
+            cursor.execute("select * from " + current_tbl)
+            current_tbl_data = cursor.fetchall()
+
+            # write all files as text file
+            with open(output_path + "/" + current_tbl + ".txt", 'w') as db_to_file:
+                db_to_file.write(str(current_tbl_data))
+
+            print("data extraction for '" + current_tbl + "' table has been completed" + '\n')
+
+hostname = input("Please enter the host name : ")
+username = input("Please enter the user name : ")
+password = input("Please enter the password  : ")
+
+db_task = Extract(hostname,username,password)
+db_task.show_db()
+db_task.select_db()
