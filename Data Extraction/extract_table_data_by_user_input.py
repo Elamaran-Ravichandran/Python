@@ -25,7 +25,7 @@ class Extract:
         # converting data(tuple) to all tables (list)
         all_dbs = [item for f in data_db for item in f]
 
-        # Print all_dbs
+        # Print all_db names
         print("Good News ! connection successful. Now you can select the database name from your schema which you would want to extract the data"+'\n')
         print("The database names are below: " +'\n'+('\n'.join(map(str, all_dbs))+'\t'))
         print('\n')
