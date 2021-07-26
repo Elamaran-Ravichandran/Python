@@ -28,4 +28,21 @@ cat small_files_count.txt | awk -v OFS="," '$1=$1' | sort -rt, -nk2 small_files_
 
 
 
+/user/hive/warehouse/dump_1/partition_1,1
+/user/hive/warehouse/dump_1/partition_2,1
+/user/hive/warehouse/dump_2/partition_1,1
+/user/hive/warehouse/dump_2/partition_2,1
+/user/hive/warehouse/dump_3/partition_1,1
+/user/hive/warehouse/dump_3/partition_2,1
+hadoop@ubuntu:~/scripts$
+hadoop@ubuntu:~/scripts$
+hadoop@ubuntu:~/scripts$
+hadoop@ubuntu:~/scripts$ cat small_file_list.txt
+/user/hive/warehouse/dump_1/partition_1/googleplaystore.csv
+/user/hive/warehouse/dump_1/partition_2/googleplaystore.csv
+/user/hive/warehouse/dump_2/partition_1/googleplaystore.csv
+/user/hive/warehouse/dump_2/partition_2/googleplaystore.csv
+/user/hive/warehouse/dump_3/partition_1/googleplaystore.csv
+/user/hive/warehouse/dump_3/partition_2/googleplaystore.csv
+hadoop@ubuntu:~/scripts$ nano test.sh
 
